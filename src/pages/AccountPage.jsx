@@ -6,6 +6,15 @@ export default function AccountPage() {
   const { wishlist, cart } = useShop();
   const [activeTab, setActiveTab] = useState("orders");
 
+  // Dummy / Fake User Profile Data
+  const mockUser = {
+    name: "Alex Morgan",
+    email: "alex.morgan@soundify.studio",
+    tier: "Elite Audiophile",
+    memberSince: "January 2026",
+    location: "Studio District, CA",
+  };
+
   return (
     <div className="min-h-screen bg-[#07080b] text-zinc-100 py-10 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto space-y-8">
@@ -17,20 +26,21 @@ export default function AccountPage() {
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 relative z-10">
             <div className="w-20 h-20 rounded-2xl bg-gradient-to-tr from-purple-600 to-cyan-500 p-1 shadow-lg shadow-purple-900/40">
               <div className="w-full h-full bg-[#0b0c12] rounded-[14px] flex items-center justify-center text-2xl font-black font-heading text-white">
-                U
+                {mockUser.name.charAt(0)}
               </div>
             </div>
             
             <div className="space-y-1">
               <div className="flex items-center gap-2">
                 <h1 className="text-xl sm:text-2xl font-black font-heading tracking-wide text-white">
-                  My Account
+                  {mockUser.name}
                 </h1>
                 <span className="px-2.5 py-0.5 rounded-full bg-purple-500/10 border border-purple-500/30 text-[10px] font-bold text-purple-400 uppercase tracking-widest flex items-center gap-1">
-                  <ShieldCheck className="w-3 h-3" /> VIP Member
+                  <ShieldCheck className="w-3 h-3" /> {mockUser.tier}
                 </span>
               </div>
-              <p className="text-xs sm:text-sm text-zinc-400">Welcome back to your studio dashboard</p>
+              <p className="text-xs sm:text-sm text-zinc-400">{mockUser.email}</p>
+              <p className="text-[11px] text-zinc-500 uppercase tracking-wider">Member Since {mockUser.memberSince}</p>
             </div>
           </div>
         </div>
@@ -141,8 +151,8 @@ export default function AccountPage() {
             <div className="space-y-4">
               <h3 className="text-sm font-bold uppercase tracking-widest text-zinc-400">Saved Delivery Addresses</h3>
               <div className="p-4 rounded-2xl bg-zinc-900 border border-zinc-800 text-xs space-y-1">
-                <span className="font-bold text-white block">Primary Shipping Address</span>
-                <p className="text-zinc-400">Default Studio Location</p>
+                <span className="font-bold text-white block">Studio Headquarters</span>
+                <p className="text-zinc-400">{mockUser.location}</p>
               </div>
             </div>
           )}

@@ -1,96 +1,125 @@
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
-import { ShoppingBag, Heart, Headphones } from "lucide-react";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useShop } from "../context/ShopContext";
-import { useAuth } from "../context/AuthContext";
+import { ShoppingBag, Heart, User, Menu, X, Headphones } from "lucide-react";
 
 export default function Navbar({ onOpenCart, onOpenWishlist }) {
   const { cart, wishlist } = useShop();
-  const { user } = useAuth();
-  const location = useLocation();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
-  const navItems = [
-    { path: "/", label: "Home" },
-    { path: "/shop", label: "Collection" },
-    { path: "/about", label: "About" },
-    { path: "/account", label: "Account" },
-  ];
+  const cartCount = cart?.reduce((acc, item) => acc + (item.quantity || 1), 0) || 0;
+  const wishlistCount = wishlist?.length || 0;
 
   return (
-    <header className="sticky top-0 z-40 bg-[#07080b]/80 backdrop-blur-xl border-b border-zinc-900 font-sans">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between gap-4">
+    <header className="sticky top-0 z-40 bg-[#07080b]/80 backdrop-blur-md border-b border-zinc-800/80">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         
-        <Link to="/" className="flex items-center gap-2.5 group">
-          <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-purple-600 to-indigo-600 flex items-center justify-center text-white shadow-[0_0_20px_rgba(147,51,234,0.4)] group-hover:scale-105 transition-transform">
-            <Headphones className="w-5 h-5" />
+        {/* Brand Logo */}
+        <Link to="/" className="flex items-center gap-2 group">
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-purple-600 to-cyan-500 p-0.5 flex items-center justify-center shadow-lg shadow-purple-900/30">
+            <div className="w-full h-full bg-[#0b0c12] rounded-[10px] flex items-center justify-center">
+              <Headphones className="w-4 h-4 text-purple-400 group-hover:scale-110 transition-transform" />
+            </div>
           </div>
           <div>
-            <span className="text-base font-black tracking-wider text-white uppercase block leading-none font-heading">
-              SOUND<span className="text-purple-400">IFY</span>
-            </span>
-            <span className="text-[9px] uppercase tracking-widest text-zinc-500 font-bold">
-              Studio Acoustics
-            </span>
+            <span className="font-black text-sm tracking-widest text-white uppercase block font-heading">Soundify</span>
+            <span className="text-[9px] tracking-widest text-zinc-400 uppercase block">Studio Acoustics</span>
           </div>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-8 text-xs font-bold uppercase tracking-widest text-zinc-400">
-          {navItems.map((item) => (
-            <Link
-              key={item.path}
-              to={item.path}
-              className={`transition-colors hover:text-white ${
-                location.pathname === item.path ? "text-purple-400 font-black" : ""
-              }`}
-            >
-              {item.label}
-            </Link>
-          ))}
+        {/* Desktop Navigation Links */}
+        <nav className="hidden md:flex items-center gap-8 text-xs font-bold uppercase tracking-widest text-zinc-300">
+          <Link to="/" className="hover:text-purple-400 transition-colors">Home</Link>
+          <Link to="/shop" className="hover:text-purple-400 transition-colors">Collection</Link>
+          <Link to="/about" className="hover:text-purple-400 transition-colors">About</Link>
         </nav>
 
+        {/* Action Icons (Cart, Wishlist, Profile & Mobile Hamburger) */}
         <div className="flex items-center gap-3">
-          <button
+          {/* Wishlist Button */}
+          <button 
             onClick={onOpenWishlist}
-            className="relative p-2.5 rounded-2xl bg-zinc-900/80 border border-zinc-800 text-zinc-400 hover:text-white transition-colors"
-            title="Wishlist"
+            className="relative p-2 rounded-xl bg-zinc-900/80 border border-zinc-800 text-zinc-300 hover:text-white transition-colors"
+            aria-label="Wishlist"
           >
-            <Heart className="w-4 h-4" />
-            {wishlist.length > 0 && (
-              <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white font-bold text-[9px] rounded-full flex items-center justify-center">
-                {wishlist.length}
+            <Heart className="w-4 h-4 text-red-500" />
+            {wishlistCount > 0 && (
+              <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-red-500 text-[9px] font-black text-white flex items-center justify-center shadow-md">
+                {wishlistCount}
               </span>
             )}
           </button>
 
-          <button
+          {/* Cart Button */}
+          <button 
             onClick={onOpenCart}
-            className="relative p-2.5 rounded-2xl bg-zinc-900/80 border border-zinc-800 text-zinc-400 hover:text-white transition-colors"
-            title="Cart"
+            className="relative p-2 rounded-xl bg-zinc-900/80 border border-zinc-800 text-zinc-300 hover:text-white transition-colors"
+            aria-label="Cart"
           >
-            <ShoppingBag className="w-4 h-4" />
-            {cart.length > 0 && (
-              <span className="absolute -top-1 -right-1 w-4 h-4 bg-purple-500 text-white font-bold text-[9px] rounded-full flex items-center justify-center">
-                {cart.length}
+            <ShoppingBag className="w-4 h-4 text-purple-400" />
+            {cartCount > 0 && (
+              <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-purple-600 text-[9px] font-black text-white flex items-center justify-center shadow-md">
+                {cartCount}
               </span>
             )}
           </button>
 
-          <Link
-            to="/account"
-            className="flex items-center gap-2 p-1.5 pl-2.5 rounded-2xl bg-zinc-900/80 border border-zinc-800 hover:border-zinc-700 transition-colors"
+          {/* Account Profile */}
+          <button 
+            onClick={() => navigate("/account")}
+            className="p-2 rounded-xl bg-zinc-900/80 border border-zinc-800 text-zinc-300 hover:text-white transition-colors hidden sm:block"
+            aria-label="Account"
           >
-            <span className="text-xs font-bold text-zinc-200 hidden sm:inline max-w-[90px] truncate">
-              {user?.name || "Account"}
-            </span>
-            <img 
-              src={user?.avatar || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100"} 
-              alt="Profile" 
-              className="w-7 h-7 rounded-xl object-cover border border-zinc-700"
-            />
-          </Link>
-        </div>
+            <User className="w-4 h-4" />
+          </button>
 
+          {/* Mobile Menu Toggle Button */}
+          <button 
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="p-2 rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-300 hover:text-white md:hidden"
+            aria-label="Toggle Menu"
+          >
+            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
+        </div>
       </div>
+
+      {/* Mobile Dropdown Menu */}
+      {mobileMenuOpen && (
+        <div className="md:hidden absolute top-16 left-0 w-full bg-[#07080b] border-b border-zinc-800 p-5 space-y-4 shadow-2xl animate-in slide-in-from-top duration-200">
+          <div className="flex flex-col space-y-3 text-sm font-bold uppercase tracking-wider text-zinc-300">
+            <Link 
+              to="/" 
+              onClick={() => setMobileMenuOpen(false)}
+              className="p-2 rounded-xl bg-zinc-900/50 hover:text-purple-400 transition-colors"
+            >
+              Home
+            </Link>
+            <Link 
+              to="/shop" 
+              onClick={() => setMobileMenuOpen(false)}
+              className="p-2 rounded-xl bg-zinc-900/50 hover:text-purple-400 transition-colors"
+            >
+              Collection
+            </Link>
+            <Link 
+              to="/about" 
+              onClick={() => setMobileMenuOpen(false)}
+              className="p-2 rounded-xl bg-zinc-900/50 hover:text-purple-400 transition-colors"
+            >
+              About
+            </Link>
+            <Link 
+              to="/account" 
+              onClick={() => setMobileMenuOpen(false)}
+              className="p-2 rounded-xl bg-zinc-900/50 hover:text-purple-400 transition-colors flex items-center gap-2"
+            >
+              <User className="w-4 h-4 text-purple-400" /> Account Profile
+            </Link>
+          </div>
+        </div>
+      )}
     </header>
   );
 }

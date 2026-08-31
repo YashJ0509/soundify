@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useShop } from "../context/ShopContext";
-import { ShoppingBag, Heart, User, Menu, X, Headphones } from "lucide-react";
+import { ShoppingBag, Heart, User, Menu, X, Headphones, LogIn } from "lucide-react";
 
 export default function Navbar({ onOpenCart, onOpenWishlist }) {
   const { cart, wishlist } = useShop();
@@ -35,7 +35,7 @@ export default function Navbar({ onOpenCart, onOpenWishlist }) {
           <Link to="/about" className="hover:text-purple-400 transition-colors">About</Link>
         </nav>
 
-        {/* Action Icons (Cart, Wishlist, Profile & Mobile Hamburger) */}
+        {/* Action Icons (Cart, Wishlist, Login & Mobile Hamburger) */}
         <div className="flex items-center gap-3">
           {/* Wishlist Button */}
           <button 
@@ -65,14 +65,13 @@ export default function Navbar({ onOpenCart, onOpenWishlist }) {
             )}
           </button>
 
-          {/* Account Profile */}
-          <button 
-            onClick={() => navigate("/account")}
-            className="p-2 rounded-xl bg-zinc-900/80 border border-zinc-800 text-zinc-300 hover:text-white transition-colors hidden sm:block"
-            aria-label="Account"
+          {/* Desktop Login / Account Button */}
+          <Link 
+            to="/login"
+            className="hidden sm:flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-purple-600/10 border border-purple-500/30 text-purple-400 hover:bg-purple-600/20 text-xs font-bold uppercase tracking-wider transition-all shadow-sm"
           >
-            <User className="w-4 h-4" />
-          </button>
+            <LogIn className="w-3.5 h-3.5" /> Login
+          </Link>
 
           {/* Mobile Menu Toggle Button */}
           <button 
@@ -89,33 +88,14 @@ export default function Navbar({ onOpenCart, onOpenWishlist }) {
       {mobileMenuOpen && (
         <div className="md:hidden absolute top-16 left-0 w-full bg-[#07080b] border-b border-zinc-800 p-5 space-y-4 shadow-2xl animate-in slide-in-from-top duration-200">
           <div className="flex flex-col space-y-3 text-sm font-bold uppercase tracking-wider text-zinc-300">
-            <Link 
-              to="/" 
-              onClick={() => setMobileMenuOpen(false)}
-              className="p-2 rounded-xl bg-zinc-900/50 hover:text-purple-400 transition-colors"
-            >
-              Home
+            <Link to="/" onClick={() => setMobileMenuOpen(false)} className="p-2 rounded-xl bg-zinc-900/50 hover:text-purple-400 transition-colors">Home</Link>
+            <Link to="/shop" onClick={() => setMobileMenuOpen(false)} className="p-2 rounded-xl bg-zinc-900/50 hover:text-purple-400 transition-colors">Collection</Link>
+            <Link to="/about" onClick={() => setMobileMenuOpen(false)} className="p-2 rounded-xl bg-zinc-900/50 hover:text-purple-400 transition-colors">About</Link>
+            <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="p-2 rounded-xl bg-purple-600/10 border border-purple-500/30 text-purple-400 flex items-center gap-2">
+              <LogIn className="w-4 h-4" /> Studio Login
             </Link>
-            <Link 
-              to="/shop" 
-              onClick={() => setMobileMenuOpen(false)}
-              className="p-2 rounded-xl bg-zinc-900/50 hover:text-purple-400 transition-colors"
-            >
-              Collection
-            </Link>
-            <Link 
-              to="/about" 
-              onClick={() => setMobileMenuOpen(false)}
-              className="p-2 rounded-xl bg-zinc-900/50 hover:text-purple-400 transition-colors"
-            >
-              About
-            </Link>
-            <Link 
-              to="/account" 
-              onClick={() => setMobileMenuOpen(false)}
-              className="p-2 rounded-xl bg-zinc-900/50 hover:text-purple-400 transition-colors flex items-center gap-2"
-            >
-              <User className="w-4 h-4 text-purple-400" /> Account Profile
+            <Link to="/account" onClick={() => setMobileMenuOpen(false)} className="p-2 rounded-xl bg-zinc-900/50 hover:text-purple-400 transition-colors flex items-center gap-2">
+              <User className="w-4 h-4 text-cyan-400" /> Account Dashboard
             </Link>
           </div>
         </div>

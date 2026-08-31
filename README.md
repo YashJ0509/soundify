@@ -32,5 +32,5 @@ Follow these steps to run Soundify on your local machine:
 
 1. **Clone the repository:**
    ```bash
-   git clone [https://github.com/your-username/soundify.git](https://github.com/your-username/soundify.git)
+   git clone [https://github.com/YashJ0509/soundify.git](https://github.com/YashJ0509/soundify.git)
    cd soundify

@@ -14,6 +14,7 @@ import AboutPage from "./pages/AboutPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
 import AccountPage from "./pages/AccountPage";
 import CheckoutPage from "./pages/CheckoutPage";
+import LoginPage from "./pages/LoginPage"; // Added Login Page import
 import StaticPolicyPage from "./pages/StaticPolicyPage"; // For Terms/Privacy/Warranty
 
 function AppContent() {
@@ -58,6 +59,7 @@ function AppContent() {
               element={<ProductDetailPage product={selectedProduct} />} 
             />
             <Route path="/account" element={<AccountPage />} />
+            <Route path="/login" element={<LoginPage />} /> {/* Added Login Route */}
             <Route path="/checkout" element={<CheckoutPage />} />
             <Route path="/policy/:type" element={<StaticPolicyPage />} />
           </Routes>

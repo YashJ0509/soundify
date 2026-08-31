@@ -1,18 +1,10 @@
 import React, { useState } from "react";
 import { useShop } from "../context/ShopContext";
-import { Package, Heart, MapPin, Settings, User, LogOut, ShieldCheck, Headphones } from "lucide-react";
+import { Package, Heart, MapPin, Settings, ShieldCheck, Headphones } from "lucide-react";
 
 export default function AccountPage() {
   const { wishlist, cart } = useShop();
   const [activeTab, setActiveTab] = useState("orders");
-
-  // Mock user profile data
-  const userProfile = {
-    name: "Yash Sanjayrao Jadhao",
-    email: "yash.jadhao@soundify.com",
-    memberSince: "March 2025",
-    tier: "Audiophile VIP",
-  };
 
   return (
     <div className="min-h-screen bg-[#07080b] text-zinc-100 py-10 px-4 sm:px-6 lg:px-8">
@@ -25,21 +17,20 @@ export default function AccountPage() {
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 relative z-10">
             <div className="w-20 h-20 rounded-2xl bg-gradient-to-tr from-purple-600 to-cyan-500 p-1 shadow-lg shadow-purple-900/40">
               <div className="w-full h-full bg-[#0b0c12] rounded-[14px] flex items-center justify-center text-2xl font-black font-heading text-white">
-                {userProfile.name.charAt(0)}
+                U
               </div>
             </div>
             
             <div className="space-y-1">
               <div className="flex items-center gap-2">
                 <h1 className="text-xl sm:text-2xl font-black font-heading tracking-wide text-white">
-                  {userProfile.name}
+                  My Account
                 </h1>
                 <span className="px-2.5 py-0.5 rounded-full bg-purple-500/10 border border-purple-500/30 text-[10px] font-bold text-purple-400 uppercase tracking-widest flex items-center gap-1">
-                  <ShieldCheck className="w-3 h-3" /> {userProfile.tier}
+                  <ShieldCheck className="w-3 h-3" /> VIP Member
                 </span>
               </div>
-              <p className="text-xs sm:text-sm text-zinc-400">{userProfile.email}</p>
-              <p className="text-[11px] text-zinc-500 uppercase tracking-wider">Member Since {userProfile.memberSince}</p>
+              <p className="text-xs sm:text-sm text-zinc-400">Welcome back to your studio dashboard</p>
             </div>
           </div>
         </div>
@@ -134,7 +125,14 @@ export default function AccountPage() {
               {wishlist?.length === 0 ? (
                 <p className="text-xs text-zinc-500 py-6 text-center">Your wishlist is currently empty.</p>
               ) : (
-                <p className="text-xs text-zinc-400">You have {wishlist?.length} items saved in your wishlist.</p>
+                <div className="space-y-2">
+                  {wishlist?.map((item, index) => (
+                    <div key={index} className="p-3 rounded-xl bg-zinc-900 border border-zinc-800 flex justify-between items-center text-xs">
+                      <span className="font-bold text-white">{item.name || item.title}</span>
+                      <span className="text-purple-400 font-bold">{item.price}</span>
+                    </div>
+                  ))}
+                </div>
               )}
             </div>
           )}
@@ -143,9 +141,8 @@ export default function AccountPage() {
             <div className="space-y-4">
               <h3 className="text-sm font-bold uppercase tracking-widest text-zinc-400">Saved Delivery Addresses</h3>
               <div className="p-4 rounded-2xl bg-zinc-900 border border-zinc-800 text-xs space-y-1">
-                <span className="font-bold text-white block">Home Address</span>
-                <p className="text-zinc-400">Amravati, Maharashtra, India</p>
-                <span className="text-[10px] text-purple-400 uppercase tracking-widest font-bold block pt-1">Default Shipping</span>
+                <span className="font-bold text-white block">Primary Shipping Address</span>
+                <p className="text-zinc-400">Default Studio Location</p>
               </div>
             </div>
           )}
@@ -157,10 +154,6 @@ export default function AccountPage() {
                 <div className="flex justify-between items-center p-3 rounded-xl bg-zinc-900 border border-zinc-800">
                   <span className="text-zinc-300 font-medium">Dark Mode Acoustic Theme</span>
                   <span className="text-purple-400 font-bold">Enabled</span>
-                </div>
-                <div className="flex justify-between items-center p-3 rounded-xl bg-zinc-900 border border-zinc-800">
-                  <span className="text-zinc-300 font-medium">High-Res Audio Alerts</span>
-                  <span className="text-emerald-400 font-bold">Active</span>
                 </div>
               </div>
             </div>
